@@ -1,24 +1,38 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
 
-function Item({ name, category }) {
-  const [isInCart, setIsInCart] = useState(false);
-
-  function handleAddToCartClick() {
-    setIsInCart((isInCart) => !isInCart);
+class Item extends Component {
+  constructor(props) {
+    super(props);
+    // Step 1: Initialize state in the constructor
+    this.state = {
+      isInCart: false,
+    };
   }
 
-  return (
-    <li className={isInCart ? "in-cart" : ""}>
-      <span>{name}</span>
-      <span className="category">{category}</span>
-      <button
-        className={isInCart ? "remove" : "add"}
-        onClick={handleAddToCartClick}
-      >
-        {isInCart ? "Remove From" : "Add to"} Cart
-      </button>
-    </li>
-  );
+  // Step 2: Convert the event handler to a class method
+  handleAddToCartClick = () => {
+    this.setState((prevState) => ({
+      isInCart: !prevState.isInCart,
+    }));
+  };
+
+  render() {
+    const { name, category } = this.props;
+    const { isInCart } = this.state;
+
+    return (
+      <li className={isInCart ? "in-cart" : ""}>
+        <span>{name}</span>
+        <span className="category">{category}</span>
+        <button
+          className={isInCart ? "remove" : "add"}
+          onClick={this.handleAddToCartClick}
+        >
+          {isInCart ? "Remove From" : "Add to"} Cart
+        </button>
+      </li>
+    );
+  }
 }
 
 export default Item;
